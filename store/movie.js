@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  SET_LOADING, SET_QUERY, SET_MOVIES, SET_ERROR,
+  SET_LOADING, SET_QUERY, SET_MOVIES, SET_ERROR, SET_SINGLE_MOVIE,
 } from '~/store/types';
 
 export const state = () => ({
@@ -13,6 +13,7 @@ export const state = () => ({
   movies: [],
   query: 'harry',
   noImages: process.env.NO_PICTURE_IS_AVAILABLE,
+  movie: {},
 });
 
 export const getters = {
@@ -22,9 +23,25 @@ export const getters = {
   getMyQuery: state => state.query,
   getNoAvailableImage: state => state.noImages,
   getError: state => state.error,
+  getMovie: state => state.movie,
 };
 
 export const actions = {
+  fetchSingleMovie: async (context, id) => {
+    context.commit(SET_LOADING, true);
+    try {
+      const singleMovie = await axios.get(`https://www.omdbapi.com/?apikey=${process.env.NUXT_APP_MOVIE_API_KEY}&i=${id}`);
+      const {
+        Poster: poster, Title: title, Plot: plot, Year: year,
+      } = singleMovie.data;
+      context.commit(SET_SINGLE_MOVIE, {
+        poster, title, plot, year,
+      });
+      context.commit(SET_LOADING, false);
+    } catch (error) {
+      console.log(error);
+    }
+  },
   fetchMovies: async (context, query) => {
     context.commit(SET_LOADING, true);
     try {
@@ -66,5 +83,12 @@ export const mutations = {
   },
   [SET_ERROR](state, { show, msg }) {
     state.error = { ...state.error, show, msg };
+  },
+  [SET_SINGLE_MOVIE](state, {
+    poster, title, plot, year,
+  }) {
+    state.movie = {
+      ...state.movie, poster, title, plot, year,
+    };
   },
 };

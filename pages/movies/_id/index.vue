@@ -1,22 +1,28 @@
 <template>
   <div>
-    <SingleMovie />
+    <SingleMovie :movie-info="getMovie" />
   </div>
 </template>
 
 <script>
-import axios from 'axios';
+import { mapActions, mapGetters } from 'vuex';
 import SingleMovie from '~/components/SingleMovie';
 
 export default {
   components: {
     SingleMovie,
   },
-  async asyncData({ params }) {
-    console.log(params.id);
-    console.log(`https://www.omdbapi.com/?apikey=${process.env.NUXT_APP_MOVIE_API_KEY}&i=${params.id}`);
-    const singleMovie = await axios.get(`https://www.omdbapi.com/?apikey=${process.env.NUXT_APP_MOVIE_API_KEY}&i=${params.id}`);
-    console.log(singleMovie);
+  computed: {
+    ...mapGetters('movie', ['getMovie']),
   },
+  mounted() {
+    this.fetchMovie(this.$route.params.id);
+  },
+  methods: {
+    ...mapActions({
+      fetchMovie: 'movie/fetchSingleMovie',
+    }),
+  },
+
 };
 </script>
