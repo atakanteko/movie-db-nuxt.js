@@ -1,19 +1,31 @@
 <template>
-  <div>
+  <main>
     <SearchForm />
-    <Home />
-  </div>
+    <Movies />
+  </main>
 </template>
 
 <script>
-import Home from '~/components/Home';
+import { mapActions, mapGetters } from 'vuex';
 import SearchForm from '~/components/SearchForm';
+import Movies from '~/components/Movies';
 
 export default {
   name: 'IndexPage',
   components: {
-    Home,
+    Movies,
     SearchForm,
+  },
+  computed: {
+    ...mapGetters('movie', ['getMyQuery']),
+  },
+  mounted() {
+    this.fetchMovies(this.getMyQuery);
+  },
+  methods: {
+    ...mapActions({
+      fetchMovies: 'movie/fetchMovies',
+    }),
   },
 
 };

@@ -65,6 +65,11 @@ body {
   line-height: 1.5;
   font-size: 0.875rem;
 }
+
+img{
+  width: 300px;
+  height: 373px;
+}
 ul {
   list-style-type: none;
 }
@@ -195,10 +200,14 @@ Movies
   width: 90vw;
   max-width: var(--max-width);
   display: grid;
-  gap: 2rem;
+  gap: 43px;
   margin: 0 auto;
   padding-bottom: 5rem;
   padding-top: 3rem;
+
+}
+.rel-mov{
+  position: relative;
 }
 .movie {
   position: relative;

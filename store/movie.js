@@ -11,7 +11,8 @@ export const state = () => ({
     msg: '',
   },
   movies: [],
-  query: 'hulk',
+  query: 'batman',
+  noImages: process.env.NO_PICTURE_IS_AVAILABLE,
 });
 
 export const getters = {
@@ -19,16 +20,18 @@ export const getters = {
   getMovies: state => state.movies,
   getLoading: state => state.loading,
   getMyQuery: state => state.query,
+  getNoAvailableImage: state => state.noImages,
 };
 
 export const actions = {
   fetchMovies: async (context, query) => {
+    context.commit(SET_LOADING, true);
     try {
-      context.commit(SET_LOADING, true);
       const response = await axios.get(`${context.getters.getApi}&s=${query}`);
       if (response.data.Response === 'True') {
         context.commit(SET_MOVIES, response.data.Search);
         context.commit(SET_ERROR, { show: false, msg: '' });
+        context.commit(SET_LOADING, false);
       } else {
         context.commit(SET_ERROR, { show: true, msg: response.data.Error });
       }
