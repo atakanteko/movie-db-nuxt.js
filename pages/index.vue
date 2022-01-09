@@ -1,19 +1,20 @@
 <template>
   <div>
-    <h2>Movie DB Nuxt.js App</h2>
+    <SearchForm />
+    <Home />
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import Home from '~/components/Home';
+import SearchForm from '~/components/SearchForm';
 
 export default {
   name: 'IndexPage',
-  computed: {
-    ...mapGetters('movie', ['getApi']),
+  components: {
+    Home,
+    SearchForm,
   },
-  mounted() {
-    console.log(this.getApi);
-  },
+
 };
 </script>
