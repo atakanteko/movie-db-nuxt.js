@@ -11,7 +11,7 @@ export const state = () => ({
     msg: '',
   },
   movies: [],
-  query: 'batman',
+  query: 'harry',
   noImages: process.env.NO_PICTURE_IS_AVAILABLE,
 });
 
@@ -21,6 +21,7 @@ export const getters = {
   getLoading: state => state.loading,
   getMyQuery: state => state.query,
   getNoAvailableImage: state => state.noImages,
+  getError: state => state.error,
 };
 
 export const actions = {

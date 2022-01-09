@@ -5,7 +5,7 @@
       <nuxt-link :to="{name: 'movies-id', params: { id:item.imdbID } }">
         <article>
           <img v-if="item.Poster === 'N/A'" :src="getNoAvailableImage" :alt="item.Title">
-          <img v-else :src="item.Poster" :alt="title">
+          <img v-else :src="item.Poster" :alt="item.title">
         </article>
       </nuxt-link>
     </section>
